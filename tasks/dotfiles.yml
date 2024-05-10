@@ -11,6 +11,9 @@
     recursive: true
     update: true
     version: main
+- name: backup .bashrc
+  become: false
+  ansible.builtin.shell: mv $HOME/.bashrc $HOME/.bashrc.bak
 - name: Stow dotfiles
   become: false
   shell: cd $HOME/.dotfiles && stow .

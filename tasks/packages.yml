@@ -61,11 +61,16 @@
     url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-475.0.0-linux-x86_64.tar.gz
     checksum: sha256:dd5e035fb0ce7afeede98081ae808b9cfd0d3cc94279d202599b67b29ff2c386
     dest: /tmp/google-cloud-sdk.tar.gz
+- name: Create gcloud-sdk directory
+  ansible.builtin.file:
+    path: $HOME/google-cloud-sdk
+    state: directory
 - name: Extract gcloud binary
   become: false
   ansible.builtin.unarchive:
     src: /tmp/google-cloud-sdk.tar.gz
     dest: $HOME/google-cloud-sdk
+    creates: true
 
 # install go
 # install nvme

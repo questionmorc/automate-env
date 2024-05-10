@@ -1,6 +1,6 @@
-- name: Creates local bin directory
+- name: Create nvim directory
   ansible.builtin.file:
-    path: $HOME/.local/bin
+    path: /opt/nvim
     state: directory
 - name: download neovim binary with checksum
   ansible.builtin.get_url:
@@ -10,4 +10,8 @@
 - name: Extract nvim binary
   ansible.builtin.unarchive:
     src: /tmp/nvim-linux64.tar.gz
-    dest: $HOME/.local/bin/nvim
+    dest: /opt/nvim
+- name: Make executable
+  ansible.builtin.file:
+    path: /opt/nvim/bin/nvim
+    mode: '0755'

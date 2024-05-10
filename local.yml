@@ -11,4 +11,4 @@
     - include: tasks/neovim.yml
     - include: tasks/dotfiles.yml
     - include: tasks/zsh.yml
-  # - include: tasks/tmux.yml
+    - include: tasks/tmux.yml

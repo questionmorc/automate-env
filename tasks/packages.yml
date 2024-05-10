@@ -13,5 +13,18 @@
 - name: Install fzf
   become: false
   shell: "{{ lookup('env', 'HOME') }}/.fzf/install --bin"
+- name: Symlink fzf
+  become: false
+  ansible.builtin.file:
+    src: $HOME/.fzf/bin/fzf
+    dest: $HOME/bin/fzf
+    state: link
+- name: Symlink fzf-tmux
+  become: false
+  ansible.builtin.file:
+    src: $HOME/.fzf/bin/fzf-tmux
+    dest: $HOME/bin/fzf-tmux
+    state: link
+
  # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # ~/.fzf/install

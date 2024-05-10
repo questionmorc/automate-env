@@ -9,7 +9,6 @@
     repo: https://github.com/junegunn/fzf.git
     dest: "{{ lookup('env', 'HOME') }}/.fzf"
     recursive: true
-    update: true
 - name: Install fzf
   become: false
   shell: "{{ lookup('env', 'HOME') }}/.fzf/install --bin"
@@ -25,6 +24,20 @@
     src: $HOME/.fzf/bin/fzf-tmux
     dest: $HOME/bin/fzf-tmux
     state: link
+- name: Cloning zoxide
+  become: false
+  ansible.builtin.git:
+    repo: https://github.com/ajeetdsouza/zoxide
+    dest: "{{ lookup('env', 'HOME') }}/.zoxide"
+    recursive: true
+    update: true
+    version: 0.9.4
+- name: Install zoxide
+  shell: "{{ lookup('env', 'HOME') }}/.zoxide/install.sh"
 
- # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-# ~/.fzf/install
+
+    #
+# install oh-my-posh or starship
+# install zoxide
+# install go
+# install nvme

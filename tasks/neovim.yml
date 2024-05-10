@@ -12,7 +12,7 @@
   ansible.builtin.unarchive:
     src: /tmp/nvim-linux64.tar.gz
     dest: /opt/
-- name: Make executable
+- name: Make neovim executable
   ansible.builtin.file:
     path: /opt/nvim-linux64/bin/nvim
     mode: '0755'

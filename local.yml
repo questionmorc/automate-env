@@ -1,7 +1,8 @@
 - hosts: localhost
-  become: true
+  # become: true
   tasks:
   - name: Update cache
+    become: true
     apt:
       force_apt_get: true
       update_cache: true

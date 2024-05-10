@@ -1,3 +1,4 @@
+---
 - name: Create nvim directory
   ansible.builtin.file:
     path: /opt/nvim
@@ -10,8 +11,8 @@
 - name: Extract nvim binary
   ansible.builtin.unarchive:
     src: /tmp/nvim-linux64.tar.gz
-    dest: /opt/nvim
+    dest: /opt/
 - name: Make executable
   ansible.builtin.file:
-    path: /opt/nvim/bin/nvim
+    path: /opt/nvim-linux64/bin/nvim
     mode: '0755'

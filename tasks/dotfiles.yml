@@ -2,8 +2,6 @@
   ansible.builtin.apt:
     name: stow
     state: present
-  tags:
-    - dotfiles
 - name: Cloning .dotfiles
   ansible.builtin.git:
     repo: 'https://github.com/questionmorc/dotfiles.git'
@@ -11,5 +9,6 @@
     recursive: yes
     update: yes
     version: main
-  tags:
-    - dotfiles
+- name: Stow dotfiles
+  become: false
+  shell: cd $HOME/.dotfiled && stow .

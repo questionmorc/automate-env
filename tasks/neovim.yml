@@ -16,11 +16,6 @@
   ansible.builtin.file:
     path: /opt/nvim-linux64/bin/nvim
     mode: '0755'
-- name: Create bin directory
-  become: false
-  ansible.builtin.file:
-    path: $HOME/bin
-    state: directory
 - name: Symlink nvim
   become: false
   ansible.builtin.file:

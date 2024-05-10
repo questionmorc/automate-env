@@ -27,4 +27,3 @@
     src: /opt/nvim-linux64/bin/nvim
     dest: $HOME/bin/nvim
     state: link
-

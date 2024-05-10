@@ -1,8 +1,8 @@
-- name: Cloning .dotfiles
+---
+- name: Cloning tpm
   become: false
   ansible.builtin.git:
-    repo: https://github.com/tmux-plugins/tpm 
+    repo: https://github.com/tmux-plugins/tpm
     dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
     recursive: true
     update: true
-

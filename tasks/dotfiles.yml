@@ -1,8 +1,4 @@
 ---
-- name: install stow
-  ansible.builtin.apt:
-    name: stow
-    state: present
 - name: Cloning .dotfiles
   become: false
   ansible.builtin.git:

@@ -1,5 +1,17 @@
 ---
 - name: install packages
   ansible.builtin.apt:
-    pkg: [stow, fzf, tmux, ripgrep, fd-find, gcc]
+    pkg: [stow, tmux, ripgrep, fd-find, gcc, unzip]
     state: present
+- name: Cloning fzf
+  become: false
+  ansible.builtin.git:
+    repo: https://github.com/junegunn/fzf.git
+    dest: "{{ lookup('env', 'HOME') }}/.fzf"
+    recursive: true
+    update: true
+- name: Install fzf
+  become: false
+  shell: "{{ lookup('env', 'HOME') }}/.fzf/install --bin"
+ # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+# ~/.fzf/install

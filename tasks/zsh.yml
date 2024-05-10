@@ -1,0 +1,5 @@
+- name: Install ZSH
+  apt: name=zsh
+- name: Change shell to zsh
+  become: false
+  shell: chsh -s $(which zsh)

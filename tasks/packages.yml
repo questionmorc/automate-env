@@ -1,0 +1,5 @@
+---
+- name: install packages
+  ansible.builtin.apt:
+    pkg: [stow, fzf, tmux, ripgrep, fd]
+    state: present

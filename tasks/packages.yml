@@ -35,17 +35,18 @@
 - name: Install zoxide
   shell: "{{ lookup('env', 'HOME') }}/.zoxide/install.sh"
 - name: download oh-my-posh binary with checksum
+  become: false
   ansible.builtin.get_url:
     url: https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v19.28.0/posh-linux-amd64
     checksum: sha256:D170EE6920627B64635D0B70AE46EBD90954655DA3A53DAE2E23CED4A49E8831
     dest: $HOME/bin/oh-my-posh
 - name: Make oh-my-posh executable
+  become: false
   ansible.builtin.file:
     path: $HOME/bin/oh-my-posh
     mode: '0755'
 
-
-    #https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v19.28.0/posh-linux-amd64
+    # https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v19.28.0/posh-linux-amd64
 # install oh-my-posh or starship
 # install zoxide
 # install go

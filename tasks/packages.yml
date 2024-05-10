@@ -39,6 +39,11 @@
     version: v0.9.4
 - name: Install zoxide
   shell: "{{ lookup('env', 'HOME') }}/.zoxide/install.sh"
+- name: Make zoxide installer executable
+  become: false
+  ansible.builtin.file:
+    path: $HOME/.zoxide/install.sh
+    mode: '0755'
 - name: download oh-my-posh binary with checksum
   become: false
   ansible.builtin.get_url:
@@ -50,6 +55,17 @@
   ansible.builtin.file:
     path: $HOME/bin/oh-my-posh
     mode: '0755'
+- name: gcloud-sdk
+  become: false
+  ansible.builtin.get_url:
+    url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-475.0.0-linux-x86_64.tar.gz
+    checksum: sha256:dd5e035fb0ce7afeede98081ae808b9cfd0d3cc94279d202599b67b29ff2c386
+    dest: /tmp/google-cloud-sdk.tar.gz
+- name: Extract gcloud binary
+  become: false
+  ansible.builtin.unarchive:
+    src: /tmp/google-cloud-sdk.tar.gz
+    dest: $HOME/google-cloud-sdk
 
 # install go
 # install nvme

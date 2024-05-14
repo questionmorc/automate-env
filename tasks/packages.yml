@@ -37,13 +37,13 @@
     recursive: true
     update: true
     version: v0.9.4
-- name: Install zoxide
-  shell: "{{ lookup('env', 'HOME') }}/.zoxide/install.sh"
 - name: Make zoxide installer executable
   become: false
   ansible.builtin.file:
     path: $HOME/.zoxide/install.sh
     mode: '0755'
+- name: Install zoxide
+  shell: "{{ lookup('env', 'HOME') }}/.zoxide/install.sh"
 - name: download oh-my-posh binary with checksum
   become: false
   ansible.builtin.get_url:

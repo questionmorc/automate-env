@@ -6,9 +6,6 @@
   changed_when: false
   become: false
   register: whoami
-- name: Print return information from the previous task
-  ansible.builtin.debug:
-    msg: 'Users: {{ whoami }}'
 - name: Ensure the user  has a zsh shell.
   user:
     name: '{{ whoami.stdout }}'

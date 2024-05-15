@@ -43,7 +43,8 @@
     path: $HOME/.zoxide/install.sh
     mode: '0755'
 - name: Install zoxide
-  shell: "{{ lookup('env', 'HOME') }}/.zoxide/install.sh"
+  become: false
+  shell: "$HOME/.zoxide/install.sh"
 - name: download oh-my-posh binary with checksum
   become: false
   ansible.builtin.get_url:

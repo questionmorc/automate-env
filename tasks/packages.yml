@@ -91,7 +91,7 @@
       ansible.builtin.unarchive:
         src: /tmp/go.tar.gz
         dest: /usr/local/
-- name: install nvme
+- name: install nvm
   become: false
   block:
     - name: donwload nvm installation
@@ -104,3 +104,6 @@
     - name: Install nvm
       become: false
       shell: $HOME/.nvm/install.sh
+    - name: Install node
+      become: false
+      shell: nvm install node

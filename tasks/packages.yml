@@ -8,70 +8,87 @@
   ansible.builtin.file:
     path: $HOME/bin
     state: directory
-- name: Cloning fzf
-  become: false
-  ansible.builtin.git:
-    repo: https://github.com/junegunn/fzf.git
-    dest: "{{ lookup('env', 'HOME') }}/.fzf"
-    recursive: true
 - name: Install fzf
-  become: false
-  shell: "{{ lookup('env', 'HOME') }}/.fzf/install --bin"
-- name: Symlink fzf
-  become: false
-  ansible.builtin.file:
-    src: $HOME/.fzf/bin/fzf
-    dest: $HOME/bin/fzf
-    state: link
-- name: Symlink fzf-tmux
-  become: false
-  ansible.builtin.file:
-    src: $HOME/.fzf/bin/fzf-tmux
-    dest: $HOME/bin/fzf-tmux
-    state: link
-- name: Cloning zoxide
-  become: false
-  ansible.builtin.git:
-    repo: https://github.com/ajeetdsouza/zoxide
-    dest: "{{ lookup('env', 'HOME') }}/.zoxide"
-    recursive: true
-    update: true
-    version: v0.9.4
-- name: Make zoxide installer executable
-  become: false
-  ansible.builtin.file:
-    path: $HOME/.zoxide/install.sh
-    mode: '0755'
+  block:
+    - name: Cloning fzf
+      become: false
+      ansible.builtin.git:
+        repo: https://github.com/junegunn/fzf.git
+        dest: "{{ lookup('env', 'HOME') }}/.fzf"
+        recursive: true
+    - name: Install fzf
+      become: false
+      shell: "{{ lookup('env', 'HOME') }}/.fzf/install --bin"
+    - name: Symlink fzf
+      become: false
+      ansible.builtin.file:
+        src: $HOME/.fzf/bin/fzf
+        dest: $HOME/bin/fzf
+        state: link
+    - name: Symlink fzf-tmux
+      become: false
+      ansible.builtin.file:
+        src: $HOME/.fzf/bin/fzf-tmux
+        dest: $HOME/bin/fzf-tmux
+        state: link
 - name: Install zoxide
-  become: false
-  shell: "$HOME/.zoxide/install.sh"
-- name: download oh-my-posh binary with checksum
-  become: false
-  ansible.builtin.get_url:
-    url: https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v19.28.0/posh-linux-amd64
-    checksum: sha256:D170EE6920627B64635D0B70AE46EBD90954655DA3A53DAE2E23CED4A49E8831
-    dest: $HOME/bin/oh-my-posh
+  block:
+    - name: Cloning zoxide
+      become: false
+      ansible.builtin.git:
+        repo: https://github.com/ajeetdsouza/zoxide
+        dest: "{{ lookup('env', 'HOME') }}/.zoxide"
+        recursive: true
+        update: true
+        version: v0.9.4
+    - name: Make zoxide installer executable
+      become: false
+      ansible.builtin.file:
+        path: $HOME/.zoxide/install.sh
+        mode: '0755'
+    - name: Install zoxide
+      become: false
+      shell: $HOME/.zoxide/install.sh
+    - name: download oh-my-posh binary with checksum
+      become: false
+      ansible.builtin.get_url:
+        url: https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v19.28.0/posh-linux-amd64
+        checksum: sha256:D170EE6920627B64635D0B70AE46EBD90954655DA3A53DAE2E23CED4A49E8831
+        dest: $HOME/bin/oh-my-posh
 - name: Make oh-my-posh executable
   become: false
   ansible.builtin.file:
     path: $HOME/bin/oh-my-posh
     mode: '0755'
-- name: gcloud-sdk
-  become: false
-  ansible.builtin.get_url:
-    url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-475.0.0-linux-x86_64.tar.gz
-    checksum: sha256:dd5e035fb0ce7afeede98081ae808b9cfd0d3cc94279d202599b67b29ff2c386
-    dest: /tmp/google-cloud-sdk.tar.gz
-- name: Create gcloud-sdk directory
-  become: false
-  ansible.builtin.file:
-    path: $HOME/lib
-    state: directory
-- name: Extract gcloud binary
-  become: false
-  ansible.builtin.unarchive:
-    src: /tmp/google-cloud-sdk.tar.gz
-    dest: $HOME/lib
-
-# install go
+- name: Install gcloud
+  block:
+    - name: gcloud-sdk
+      become: false
+      ansible.builtin.get_url:
+        url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-475.0.0-linux-x86_64.tar.gz
+        checksum: sha256:dd5e035fb0ce7afeede98081ae808b9cfd0d3cc94279d202599b67b29ff2c386
+        dest: /tmp/google-cloud-sdk.tar.gz
+    - name: Create gcloud-sdk directory
+      become: false
+      ansible.builtin.file:
+        path: $HOME/lib
+        state: directory
+    - name: Extract gcloud binary
+      become: false
+      ansible.builtin.unarchive:
+        src: /tmp/google-cloud-sdk.tar.gz
+        dest: $HOME/lib
+- name: install golang
+  block:
+    - name: download go binary with checksum
+      become: false
+      ansible.builtin.get_url:
+        url: https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
+        checksum: sha256:8920ea521bad8f6b7bc377b4824982e011c19af27df88a815e3586ea895f1b36
+        dest: /tmp/go.tar.gz
+    - name: Extract go binary
+      become: true
+      ansible.builtin.unarchive:
+        src: /tmp/go.tar.gz
+        dest: /usr/local/
 # install nvme

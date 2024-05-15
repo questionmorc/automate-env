@@ -37,7 +37,7 @@
       become: false
       ansible.builtin.git:
         repo: https://github.com/ajeetdsouza/zoxide
-        dest: "{{ lookup('env', 'HOME') }}/.zoxide"
+        dest: "$HOME/.zoxide"
         recursive: true
         update: true
         version: v0.9.4
@@ -91,4 +91,16 @@
       ansible.builtin.unarchive:
         src: /tmp/go.tar.gz
         dest: /usr/local/
-# install nvme
+- name: install nvme
+  become: false
+  block:
+    - name: donwload nvm installation
+      ansible.builtin.git:
+        repo: https://github.com/nvm-sh/nvm.git
+        dest: "$HOME/.nvm"
+        recursive: true
+        update: true
+        version: v0.39.7
+    - name: Install nvm
+      become: false
+      shell: $HOME/.nvm/install.sh

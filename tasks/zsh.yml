@@ -1,20 +1,17 @@
 ---
 - name: Install ZSH
   apt: name=zsh
-
 - name: Run whoami without become.
   command: whoami
   changed_when: false
   become: false
   register: whoami
-
 - name: Print return information from the previous task
   ansible.builtin.debug:
-    msg: "Users: {{ whoami }}"
-
+    msg: 'Users: {{ whoami }}'
 - name: Ensure the user  has a zsh shell.
   user:
-    name: "{{ whoami.stdout }}"
+    name: '{{ whoami.stdout }}'
     shell: /usr/bin/zsh
     state: present
-  become: yes
+  become: true

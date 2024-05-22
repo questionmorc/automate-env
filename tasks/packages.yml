@@ -104,6 +104,6 @@
     - name: Install nvm
       become: false
       shell: $HOME/.nvm/install.sh
-    - name: Install node
-      become: false
-      shell: nvm install node
+    # - name: Install node
+    #   become: false
+    #   shell: nvm install node

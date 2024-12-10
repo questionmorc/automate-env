@@ -1,24 +1,48 @@
 ---
-- name: Create nvim directory
-  ansible.builtin.file:
-    path: /opt/nvim
-    state: directory
-- name: download neovim binary with checksum
-  ansible.builtin.get_url:
-    url: https://github.com/neovim/neovim/releases/download/v0.9.5/nvim-linux64.tar.gz
-    checksum: sha256:44ee395d9b5f8a14be8ec00d3b8ead34e18fe6461e40c9c8c50e6956d643b6ca
-    dest: /tmp/nvim-linux64.tar.gz
-- name: Extract nvim binary
-  ansible.builtin.unarchive:
-    src: /tmp/nvim-linux64.tar.gz
-    dest: /opt/
-- name: Make neovim executable
-  ansible.builtin.file:
-    path: /opt/nvim-linux64/bin/nvim
-    mode: '0755'
-- name: Symlink nvim
-  become: false
-  ansible.builtin.file:
-    src: /opt/nvim-linux64/bin/nvim
-    dest: $HOME/bin/nvim
-    state: link
+- name: Install neovim
+  block:
+    - name: Create code directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/code"
+        state: directory
+        mode: '0755'
+    - name: Cloning neovim
+      become: false
+      ansible.builtin.git:
+        repo: https://github.com/neovim/neovim.git
+        dest: "{{ lookup('env', 'HOME') }}/code/neovim"
+        version: stable
+        depth: 1
+    - name: Cmake neovim
+      become: false
+      shell: "make CMAKE_BUILD_TYPE=RelWithDebInfo"
+      args:
+        chdir: "{{ lookup('env', 'HOME') }}/code/neovim"
+    - name: install neovim
+      become: true
+      shell: "make install"
+      args:
+        chdir: "{{ lookup('env', 'HOME') }}/code/neovim"
+# - name: Create nvim directory
+#   ansible.builtin.file:
+#     path: /opt/nvim
+#     state: directory
+# - name: download neovim binary with checksum
+#   ansible.builtin.get_url:
+#     url: https://github.com/neovim/neovim/releases/download/v0.9.5/nvim-linux64.tar.gz
+#     checksum: sha256:44ee395d9b5f8a14be8ec00d3b8ead34e18fe6461e40c9c8c50e6956d643b6ca
+#     dest: /tmp/nvim-linux64.tar.gz
+# - name: Extract nvim binary
+#   ansible.builtin.unarchive:
+#     src: /tmp/nvim-linux64.tar.gz
+#     dest: /opt/
+# - name: Make neovim executable
+#   ansible.builtin.file:
+#     path: /opt/nvim-linux64/bin/nvim
+#     mode: '0755'
+# - name: Symlink nvim
+#   become: false
+#   ansible.builtin.file:
+#     src: /opt/nvim-linux64/bin/nvim
+#     dest: $HOME/bin/nvim
+#     state: link

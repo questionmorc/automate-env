@@ -1,7 +1,7 @@
 ---
 - name: install packages
   ansible.builtin.apt:
-    pkg: [stow, tmux, ripgrep, fd-find, gcc, unzip, git]
+    pkg: [stow, tmux, ripgrep, fd-find, gcc, unzip, git, ninja-build, gettext, cmake, curl, build-essential]
     state: present
 - name: Create bin directory
   become: false
